@@ -99,9 +99,9 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                     }
                     .setNegativeButton("CONFIRMAR") { _, _ ->
                         name = (popupInputDialogView!!.findViewById<View>(R.id.inputName) as EditText)
-                        email= (popupInputDialogView!!.findViewById<View>(R.id.inputEmail) as EditText)
+                        email = (popupInputDialogView!!.findViewById<View>(R.id.inputEmail) as EditText)
 
-                        if (!name.text.isNullOrEmpty() || !email.text.isNullOrEmpty())  {
+                        if (!name.text.isNullOrBlank() || !email.text.isNullOrBlank())  {
                             val postInfo = CheckInEvent(name.toString(), email.toString(), eventId)
                             homeViewModel.postEvent(postInfo)
                             Navigation.findNavController(requireView()).navigate(R.id.detailsFragentToHome)
