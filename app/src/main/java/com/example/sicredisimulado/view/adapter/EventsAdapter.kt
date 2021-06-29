@@ -9,6 +9,9 @@ import com.example.sicredisimulado.R
 import com.example.sicredisimulado.databinding.RviewEventsListBinding
 import com.example.sicredisimulado.model.Events
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EventsAdapter(private val events: ArrayList<Events>) : RecyclerView.Adapter<EventsAdapter.EventsViewHolder>() {
 
@@ -24,14 +27,17 @@ class EventsAdapter(private val events: ArrayList<Events>) : RecyclerView.Adapte
         with(holder)
         {
             with(events[position]) {
+
+                val sdf = SimpleDateFormat("dd/MM/yyyy")
+                val netDate = Date(date.toLong() * 1000)
+
                 binding.eventName.text = title
-                binding.txtDate.text = date.toString()
-                binding.txtPrice.text = price.toString()
+                binding.txtDate.text = sdf.format(netDate).toString()
+                binding.txtPrice.text = "$price reais"
 
                 Picasso.get()
                     .load(image)
                     .placeholder(R.drawable.ic_image_not_found)
-                    .resize(200, 200)
                     .into(binding.eventImage)
 
                 holder.binding.rviewItem.setOnClickListener {
@@ -43,6 +49,8 @@ class EventsAdapter(private val events: ArrayList<Events>) : RecyclerView.Adapte
                     bundle.putString("price", price.toString())
                     bundle.putString("image", image)
                     bundle.putString("eventId", id)
+                    bundle.putDouble("lat", latitude)
+                    bundle.putDouble("long", longitude)
 
                     Navigation.findNavController(itemView).navigate(R.id.eventDetailFragment, bundle)
 

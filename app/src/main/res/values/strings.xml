@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">SicrediSimulado</string>
+    <string name="apiKeyMaps">AIzaSyD2iEk5uPVE4R7p09C8XfVhAosfDhypbLQ</string>
 
     <!-- Rview  Events List -->
     <string name="label_price">Preço:</string>
@@ -11,4 +12,8 @@
     <string name="label_name">Nome</string>
     <string name="label_email">Email</string>
     <string name="btn_checkin">Realizar Check-in</string>
+    <string name="btn_share">Share</string>
+    <string name="btn_check_in">Check-In</string>
+    <string name="label_date">Data: </string>
+    <string name="txt_event_title">Titulo atividade</string>
 </resources>
