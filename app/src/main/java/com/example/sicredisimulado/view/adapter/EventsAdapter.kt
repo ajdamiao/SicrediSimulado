@@ -30,9 +30,10 @@ class EventsAdapter(private val events: ArrayList<Events>) : RecyclerView.Adapte
 
                 val sdf = SimpleDateFormat("dd/MM/yyyy")
                 val netDate = Date(date.toLong() * 1000)
+                val dateConverted = sdf.format(netDate).toString()
 
                 binding.eventName.text = title
-                binding.txtDate.text = sdf.format(netDate).toString()
+                binding.txtDate.text = dateConverted
                 binding.txtPrice.text = "$price reais"
 
                 Picasso.get()
@@ -44,7 +45,7 @@ class EventsAdapter(private val events: ArrayList<Events>) : RecyclerView.Adapte
 
                     val bundle = Bundle()
                     bundle.putString("eventName", title)
-                    bundle.putString("date", date.toString())
+                    bundle.putString("date", dateConverted)
                     bundle.putString("description", description)
                     bundle.putString("price", price.toString())
                     bundle.putString("image", image)
@@ -53,7 +54,6 @@ class EventsAdapter(private val events: ArrayList<Events>) : RecyclerView.Adapte
                     bundle.putDouble("long", longitude)
 
                     Navigation.findNavController(itemView).navigate(R.id.eventDetailFragment, bundle)
-
                 }
             }
         }
