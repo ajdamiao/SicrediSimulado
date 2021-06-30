@@ -101,7 +101,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                         email = (popupInputDialogView!!.findViewById<View>(R.id.inputEmail) as EditText)
 
                         if (!name.text.isNullOrBlank() || !email.text.isNullOrBlank())  {
-                            val postInfo = CheckInEvent(name.toString(), email.toString(), eventId)
+                            val postInfo = CheckInEvent(email.toString(), eventId, name.toString())
                             homeViewModel.postEvent(postInfo)
                             Navigation.findNavController(requireView()).navigate(R.id.detailsFragentToHome)
                         }
