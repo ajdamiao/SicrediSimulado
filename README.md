@@ -5,4 +5,4 @@ Tecnologias e Frameworks utilizados:
 - Retrofit: Para manipulamento de daos Json, facil implementação.
 - Picasso: Utilizado para carregar imagens da web dentro do ImageView, de facil aplicacao.
 
-<img src="https://github.com/ajdamiao/SicrediSimulado/blob/master/screen.gif" width="200" height="400" />
+<img src="https://github.com/ajdamiao/SicrediSimulado/blob/master/tela.gif" width="200" height="400" />
