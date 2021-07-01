@@ -5,6 +5,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sicredisimulado.MainActivity
 import com.example.sicredisimulado.R
 import com.example.sicredisimulado.databinding.FragmentHomeBinding
 import com.example.sicredisimulado.model.Events
@@ -21,6 +22,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         homeViewModel.getEvents()
         eventsResponse()
+
+        val main = activity as MainActivity
+        main.setToolbarTitle("Lista Eventos")
     }
 
     private fun eventsResponse() {
