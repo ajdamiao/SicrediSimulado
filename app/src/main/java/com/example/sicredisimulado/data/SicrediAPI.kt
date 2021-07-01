@@ -8,11 +8,9 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface SicrediAPI {
-
     @GET("api/events")
     suspend fun getEvents(): ArrayList<Events>
 
     @POST("api/checkin")
-    suspend fun checkInEvent(@Body checkInEvent: CheckInEvent): Response<Void>
-
+    suspend fun checkInEvent(@Body checkInEvent: CheckInEvent): Response<*>
 }

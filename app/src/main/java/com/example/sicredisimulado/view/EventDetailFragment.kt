@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.sicredisimulado.MainActivity
 import com.example.sicredisimulado.R
 import com.example.sicredisimulado.databinding.FragmentEventDetailBinding
+import com.example.sicredisimulado.exceptions.CustomException
 import com.example.sicredisimulado.model.CheckInEvent
 import com.example.sicredisimulado.viewmodel.HomeViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -35,8 +37,9 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEventDetailBinding.bind(view)
 
-        setData()
+        checkInResponse()
         setupMap()
+        setData()
 
         binding.btnCheckIn.setOnClickListener {
             checkInAlertDialog()
@@ -101,9 +104,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                         email = (popupInputDialogView!!.findViewById<View>(R.id.inputEmail) as EditText)
 
                         if (!name.text.isNullOrBlank() || !email.text.isNullOrBlank())  {
-                            val postInfo = CheckInEvent(email.text.toString(), eventId, name.text.toString())
+                            val postInfo = CheckInEvent(eventId, name.text.toString(), email.text.toString())
                             homeViewModel.postEvent(postInfo)
-                            Navigation.findNavController(requireView()).navigate(R.id.detailsFragentToHome)
                         }
                         else {
                             invalidFieldDialog()
@@ -133,6 +135,19 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         }
     }
 
+    private fun dialogConfirmCheckIn()
+    {
+        context?.let {
+            MaterialAlertDialogBuilder(it, R.style.AlertDialogThemeBenefit)
+                .setTitle("Sucesso")
+                .setMessage("Check-in realizado com sucesso.")
+                .setNegativeButton("OK"){ DialogInterface, _ ->
+                    Navigation.findNavController(requireView())
+                        .navigate(R.id.detailsFragentToHome)
+                }
+        }?.show()
+    }
+
     private fun updateMap() {
         val lat = requireArguments().getDouble("lat")
         val long = requireArguments().getDouble("long")
@@ -147,6 +162,39 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                 ), 16.0F
             )
         )
+    }
+
+    private fun checkInResponse() {
+        println("veio response")
+        homeViewModel.eventPostResponse.observe(viewLifecycleOwner, { response ->
+            when(response) {
+                is Boolean -> {
+                    if (response) dialogConfirmCheckIn()
+                    else{ dialogErroCheckIn() }
+                }
+
+                is CustomException -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Erro ao fazer check-in, tente novamente",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    println("entrou response exception")
+                }
+            }
+        })
+    }
+
+    private fun dialogErroCheckIn()
+    {
+        context?.let {
+            MaterialAlertDialogBuilder(it, R.style.AlertDialogThemeBenefit)
+                .setTitle("Erro")
+                .setMessage("Erro ao fazer Check-in.")
+                .setNegativeButton("OK"){ DialogInterface, _ ->
+                    DialogInterface.dismiss()
+                }
+        }?.show()
     }
 
     private fun hideKeyboard()
