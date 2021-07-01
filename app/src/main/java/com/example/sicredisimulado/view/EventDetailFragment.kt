@@ -70,7 +70,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         Picasso.get()
             .load(imageURL)
             .placeholder(R.drawable.ic_image_not_found)
-            .resize(200, 200)
+            .resize(500, 500)
             .into(binding.eventImageDetails)
     }
 
@@ -165,7 +165,6 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
     }
 
     private fun checkInResponse() {
-        println("veio response")
         homeViewModel.eventPostResponse.observe(viewLifecycleOwner, { response ->
             when(response) {
                 is Boolean -> {
