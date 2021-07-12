@@ -99,26 +99,32 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                         dialogInterface.cancel()
                     }
                     .setNegativeButton("CONFIRMAR") { _, _ ->
-                        name = (popupInputDialogView!!.findViewById<View>(R.id.inputName) as EditText)
-                        email = (popupInputDialogView!!.findViewById<View>(R.id.inputEmail) as EditText)
+                        name = (popupInputDialogView.let { popupInputDialogView?.findViewById<View>(R.id.inputName) as EditText })
+                        email = (popupInputDialogView.let { popupInputDialogView?.findViewById<View>(R.id.inputEmail) as EditText })
 
-                        if (!name.text.isNullOrBlank() || !email.text.isNullOrBlank())  {
-                            val postInfo = CheckInEvent(eventId, name.text.toString(), email.text.toString())
-                            homeViewModel.postEvent(postInfo)
+                        if(email.text.contains("@"))
+                        {
+                            if (!name.text.isNullOrBlank() || !email.text.isNullOrBlank())  {
+                                val postInfo = CheckInEvent(eventId, name.text.toString(), email.text.toString())
+                                homeViewModel.postEvent(postInfo)
+                            }
+                            else {
+                                invalidFieldDialog("Todos os campos devem ser preenchidos.")
+                            }
                         }
                         else {
-                            invalidFieldDialog()
+                            invalidFieldDialog("É preciso colocar um email valido.")
                         }
                         hideKeyboard()
                     }.show()
         }
     }
 
-    private fun invalidFieldDialog() {
+    private fun invalidFieldDialog(mensagem: String) {
         context?.let {
             MaterialAlertDialogBuilder(it, R.style.AlertDialogThemeBenefit)
                     .setTitle("Erro")
-                    .setMessage("Todos os campos devem ser preenchidos")
+                    .setMessage(mensagem)
                     .setPositiveButton("OK"){ DialogInterface, _ ->
                         DialogInterface.dismiss()
                     }
@@ -152,15 +158,16 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         val long = requireArguments().getDouble("long")
 
         val marker = LatLng(lat, long)
-        mMap!!.addMarker(MarkerOptions().position(marker).title("Position"))
-        mMap?.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                LatLng(
-                    marker.latitude,
-                    marker.longitude
-                ), 16.0F
+        mMap.let {
+            mMap?.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        marker.latitude,
+                        marker.longitude
+                    ), 16.0F
+                )
             )
-        )
+        }
     }
 
     private fun checkInResponse() {
