@@ -69,7 +69,6 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
 
         Picasso.get()
             .load(imageURL)
-            .placeholder(R.drawable.ic_image_not_found)
             .resize(500, 500)
             .into(binding.eventImageDetails)
     }

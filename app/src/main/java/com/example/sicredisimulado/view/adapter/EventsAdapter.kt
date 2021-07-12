@@ -36,10 +36,10 @@ class EventsAdapter(private val events: ArrayList<Events>) : RecyclerView.Adapte
                 binding.txtDate.text = dateFinal
                 binding.txtPrice.text = "$price reais"
 
-                Picasso.get()
+                /*Picasso.get()
                     .load(image)
                     .placeholder(R.drawable.ic_image_not_found)
-                    .into(binding.eventImage)
+                    .into(binding.eventImage)*/
 
                 holder.binding.rviewItem.setOnClickListener {
 
